@@ -17,4 +17,4 @@ jobs:
         with:
           nuget-api-key: ${{secrets.NUGET_TOKEN}}
 
-      - run: nuget restore MyProject.sln
+      - run: nuget restore TiaGenerator.Tia.sln
