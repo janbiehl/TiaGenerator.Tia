@@ -19,4 +19,4 @@ jobs:
 
       - run: nuget pack package.nuspec -p "Configuration=Release;Version=${{ github.event.release.tag_name }};PackageReleaseNotes=See https://github.com/janbiehl/TiaGenerator.Tia/releases/tag/${{ github.event.release.tag_name }}"
       
-      - run: nuget push *.nupkg -source "https://nuget.pkg.github.com/janbiehl/index.json" -ApiKey ${{secrets.NUGET_TOKEN}}
+      - run: nuget push *.nupkg -source "https://nuget.pkg.github.com/janbiehl/index.json" -ApiKey janbiehl:${{secrets.NUGET_TOKEN}}
