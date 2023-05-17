@@ -5,32 +5,16 @@ on:
 jobs:
   publish:
     name: Pack and Publish
-    runs-on: ubuntu-latest
+    runs-on: windows-latest
     permissions:
       packages: write
     steps:
       - name: Checkout Repository
         uses: actions/checkout@v3
       
-      - name: Setup .NET
-        uses: actions/setup-dotnet@v3
+      - name: Setup Nuget.exe
+        uses: NuGet/setup-nuget@v1.2.0
         with:
-          dotnet-version: '6.0.x'
+          nuget-api-key: ${{secret.NUGET_TOKEN}}
 
-      - name: Restore Dependencies
-        run: dotnet restore
-        
-      - name: Build
-        run: dotnet build TiaGenerator.Core --configuration Release
-      
-      - name: Pack NuGet Package
-        run: dotnet pack --configuration Release --output ./output /p:Version=${{ github.event.release.tag_name }} /p:PackageReleaseNotes="See https://github.com/janbiehl/TiaGenerator.Core/releases/tag/${{ github.event.release.tag_name }}" TiaGenerator.Core
-      
-      - name: Archive NuGet Package
-        uses: actions/upload-artifact@v3.1.2
-        with:
-          name: TiaGenerator.Core
-          path: ./output/TiaGenerator.Core.${{ github.event.release.tag_name }}.nupkg
-      
-      - name: Publish to Github Nuget Package Store
-        run: dotnet nuget push ./output/*.nupkg --source "https://nuget.pkg.github.com/janbiehl/index.json" --api-key ${{secrets.NUGET_TOKEN}}
+      - run: nuget restore MyProject.sln
