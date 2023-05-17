@@ -2,7 +2,7 @@
 <package xmlns="http://schemas.microsoft.com/packaging/2010/07/nuspec.xsd">
 <metadata>
     <!-- Identifier that must be unique within the hosting gallery -->
-    <id>janbiehl</id>
+    <id>TiaGenerator.Tia</id>
 
     <!-- Package version number that is used when resolving dependencies -->
     <version>0.0.0-alpha-1</version>
