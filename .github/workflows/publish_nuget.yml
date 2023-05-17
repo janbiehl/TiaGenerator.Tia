@@ -15,6 +15,6 @@ jobs:
       - name: Setup Nuget.exe
         uses: NuGet/setup-nuget@v1.2.0
         with:
-          nuget-api-key: ${{secret.NUGET_TOKEN}}
+          nuget-api-key: ${{secrets.NUGET_TOKEN}}
 
       - run: nuget restore MyProject.sln
