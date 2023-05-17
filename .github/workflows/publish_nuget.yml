@@ -17,4 +17,4 @@ jobs:
         with:
           nuget-api-key: ${{secrets.NUGET_TOKEN}}
 
-      - run: nuget pack package.nuspec -p Configuration=Release -p Version=${{ github.event.release.tag_name }} /p:PackageReleaseNotes="See https://github.com/janbiehl/TiaGenerator.Core/releases/tag/${{ github.event.release.tag_name }}"
+      - run: nuget pack package.nuspec -p Configuration=Release -p Version=${{ github.event.release.tag_name }} -p:PackageReleaseNotes="See https://github.com/janbiehl/TiaGenerator.Core/releases/tag/${{ github.event.release.tag_name }}"
