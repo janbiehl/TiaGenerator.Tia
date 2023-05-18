@@ -36,10 +36,10 @@
     <ItemGroup>
         <Reference Include="mscorlib" />
         <Reference Include="Siemens.Engineering">
-          <HintPath>Library\Siemens.Engineering.dll</HintPath>
+          <HintPath>..\lib\Siemens.Engineering.dll</HintPath>
         </Reference>
         <Reference Include="Siemens.Engineering.Hmi">
-          <HintPath>Library\Siemens.Engineering.Hmi.dll</HintPath>
+          <HintPath>..\lib\Siemens.Engineering.Hmi.dll</HintPath>
         </Reference>
         <Reference Include="System" />
         <Reference Include="System.Core" />
@@ -73,10 +73,6 @@
         <Compile Include="Utils\PlcBlockUtils.cs" />
         <Compile Include="Utils\PlcSoftwareUtils.cs" />
         <Compile Include="Utils\ProjectUtils.cs" />
-    </ItemGroup>
-    <ItemGroup>
-      <Content Include="Library\Siemens.Engineering.dll" />
-      <Content Include="Library\Siemens.Engineering.Hmi.dll" />
     </ItemGroup>
     <ItemGroup>
       <PackageReference Include="NuGet.Build.Tasks.Pack" Version="6.5.0">
