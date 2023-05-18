@@ -57,6 +57,8 @@
     </dependencies>
 </metadata>
 <files>
+    <file src="TiaGenerator.Tia/bin/Release/TiaGenerator.Tia.dll" target="lib/net48/TiaGenerator.Tia.dll" />
+    <file src="TiaGenerator.Tia/bin/Release/TiaGenerator.Tia.pdb" target="lib/net48/TiaGenerator.Tia.pdb" />
     <file src="lib/net48/Siemens.Engineering.dll" target="lib/net48/Siemens.Engineering.dll" />
     <file src="lib/net48/Siemens.Engineering.Hmi.dll" target="lib/net48/Siemens.Engineering.Hmi.dll" />
 </files>

@@ -36,10 +36,10 @@
     <ItemGroup>
         <Reference Include="mscorlib" />
         <Reference Include="Siemens.Engineering">
-          <HintPath>..\lib\Siemens.Engineering.dll</HintPath>
+          <HintPath>..\lib\net48\Siemens.Engineering.dll</HintPath>
         </Reference>
         <Reference Include="Siemens.Engineering.Hmi">
-          <HintPath>..\lib\Siemens.Engineering.Hmi.dll</HintPath>
+          <HintPath>..\lib\net48\Siemens.Engineering.Hmi.dll</HintPath>
         </Reference>
         <Reference Include="System" />
         <Reference Include="System.Core" />
