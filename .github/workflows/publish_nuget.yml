@@ -15,7 +15,7 @@ jobs:
       - name: Setup Nuget.exe
         uses: NuGet/setup-nuget@v1.2.0
 
-      - run: nuget pack -Version ${{ github.event.release.tag_name }} -Properties Configuration=Release;PackageReleaseNotes="See https://github.com/janbiehl/TiaGenerator.Tia/releases/tag/${{ github.event.release.tag_name }}"
+      - run: nuget pack -Version ${{ github.event.release.tag_name }} -Properties Configuration=Release;PackageReleaseNotes=See https://github.com/janbiehl/TiaGenerator.Tia/releases/tag/${{ github.event.release.tag_name }}
 #      - run: nuget pack package.nuspec -p "Configuration=Release;Version=${{ github.event.release.tag_name }};PackageReleaseNotes=See https://github.com/janbiehl/TiaGenerator.Tia/releases/tag/${{ github.event.release.tag_name }}"
       
       - name: Upload a Build Artifact
