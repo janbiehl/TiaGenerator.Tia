@@ -58,14 +58,13 @@
         <Compile Include="Extensions\ProjectExtensions.cs" />
         <Compile Include="Extensions\TiaPortalExtensions.cs" />
         <Compile Include="Models\CreateProjectInfo.cs" />
+        <Compile Include="Models\PlcDevice.cs" />
         <Compile Include="Models\Fingerprints.cs" />
         <Compile Include="Models\PlcBlock.cs" />
-        <Compile Include="Models\PlcDevice.cs" />
         <Compile Include="Models\PlcSystemConstant.cs" />
         <Compile Include="Models\PlcTag.cs" />
         <Compile Include="Models\PlcTagTable.cs" />
         <Compile Include="Models\PlcUserConstant.cs" />
-        <Compile Include="ProjectWrapper.cs" />
         <Compile Include="Properties\AssemblyInfo.cs" />
         <Compile Include="TiaExceptions.cs" />
         <Compile Include="Utils\Constants.cs" />

@@ -5,6 +5,7 @@ using TiaGenerator.Tia.Utils;
 namespace TiaGenerator.Tia.Models
 {
 	[Serializable]
+	[Obsolete]
 	public class PlcBlock
 	{
 		/// <summary>

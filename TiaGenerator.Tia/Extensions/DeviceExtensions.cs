@@ -18,44 +18,5 @@ namespace TiaGenerator.Tia.Extensions
 
 			return identityProvider?.Get(DeviceUtils.DeviceIdentifierKey);
 		}
-
-		public static PlcDevice? GetPlcDeviceInformation(this Device device)
-		{
-			if (device == null) throw new ArgumentNullException(nameof(device));
-			
-			// Iterate over the device items and search for a plc software
-			DeviceItem? deviceItem = null;
-			PlcSoftware? plcSoftware = null;
-			
-			foreach (var tmpDeviceItem in device.DeviceItems)
-			{
-				var softwareContainer = tmpDeviceItem.GetService<SoftwareContainer>();
-
-				if (softwareContainer?.Software is PlcSoftware tmpPlcSoftware)
-				{
-					deviceItem = tmpDeviceItem;
-					plcSoftware = tmpPlcSoftware;
-					break;
-				}
-			}
-			
-			// Exit when it is not a plc device
-			if (deviceItem is null || plcSoftware is null)
-				return null;
-
-			var plcDevice = new PlcDevice
-			{
-				Guid = Guid.NewGuid(),
-				DeviceName = device.Name,
-				DeviceItemName = deviceItem.Name,
-				PlcSoftwareName = plcSoftware.Name,
-				DeviceIdentifier = device.TypeIdentifier,
-				TypeIdentifier = deviceItem.TypeIdentifier,
-				Blocks = plcSoftware.GetBlockInformation(),
-				TagTables = plcSoftware.GetTagTableInformation()
-			};
-
-			return plcDevice;
-		}
 	}
 }
