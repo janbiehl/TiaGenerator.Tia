@@ -1,8 +1,7 @@
 using System.Collections.Generic;
 using Siemens.Engineering;
-using Siemens.Engineering.Hmi;
 using Siemens.Engineering.HW;
-using Siemens.Engineering.SW;
+using TiaGenerator.Tia.Models;
 using TiaGenerator.Tia.Utils;
 
 namespace TiaGenerator.Tia.Extensions
@@ -81,8 +80,7 @@ namespace TiaGenerator.Tia.Extensions
 		/// <param name="project">The project to search</param>
 		/// <returns>Null, or a tuple containing the required information</returns>
 		/// <exception cref="TiaException"></exception>
-		public static (Device device, DeviceItem deviceItem, HmiTarget plcSoftware)? FindFirstHmiDevice(
-			this Project project)
+		public static HmiDevice? FindFirstHmiDevice(this Project project)
 		{
 			return DeviceUtils.FindFirstHmiDevice(project);
 		}
@@ -93,7 +91,7 @@ namespace TiaGenerator.Tia.Extensions
 		/// <param name="project">The project to search</param>
 		/// <returns>Empty collection, or List of tuples containing the required information's</returns>
 		/// <exception cref="TiaException"></exception>
-		public static List<(Device device, DeviceItem deviceItem, HmiTarget plcSoftware)> FindAnyHmiDevices(
+		public static List<HmiDevice> FindAnyHmiDevices(
 			this Project project)
 		{
 			return DeviceUtils.FindAnyHmiDevices(project);

@@ -7,6 +7,7 @@ using Siemens.Engineering.HW;
 using Siemens.Engineering.HW.Features;
 using Siemens.Engineering.SW;
 using TiaGenerator.Tia.Extensions;
+using TiaGenerator.Tia.Models;
 
 namespace TiaGenerator.Tia.Utils
 {
@@ -220,7 +221,7 @@ namespace TiaGenerator.Tia.Utils
         /// <param name="project">The project to search</param>
         /// <returns>Null, or a tuple containing the required information</returns>
         /// <exception cref="TiaException"></exception>
-        public static (Device device, DeviceItem deviceItem, HmiTarget plcSoftware)? FindFirstHmiDevice(Project project)
+        public static HmiDevice? FindFirstHmiDevice(Project project)
         {
             try
             {
@@ -234,7 +235,7 @@ namespace TiaGenerator.Tia.Utils
 
                         if (softwareContainer?.Software is HmiTarget hmiSoftware)
                         {
-                            return (device, deviceItem, hmiSoftware);
+                            return new HmiDevice(device, deviceItem, hmiSoftware);
                         }
                     }
                 }
@@ -253,13 +254,13 @@ namespace TiaGenerator.Tia.Utils
         /// <param name="project">The project to search</param>
         /// <returns>Empty collection, or List of tuples containing the required information's</returns>
         /// <exception cref="TiaException"></exception>
-        public static List<(Device device, DeviceItem deviceItem, HmiTarget plcSoftware)> FindAnyHmiDevices(Project project)
+        public static List<HmiDevice> FindAnyHmiDevices(Project project)
         {
             try
             {
                 if (project == null) throw new ArgumentNullException(nameof(project));
 
-                var results = new List<(Device device, DeviceItem deviceItem, HmiTarget hmiSoftware)>();
+                var results = new List<HmiDevice>();
                 
                 foreach (var device in project.Devices)
                 {
@@ -269,7 +270,7 @@ namespace TiaGenerator.Tia.Utils
 
                         if (softwareContainer?.Software is HmiTarget hmiSoftware)
                         {
-                            results.Add((device, deviceItem, hmiSoftware));
+                            results.Add(new HmiDevice(device, deviceItem, hmiSoftware));
                         }
                     }
                 }

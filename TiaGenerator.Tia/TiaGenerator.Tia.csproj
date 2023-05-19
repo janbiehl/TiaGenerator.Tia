@@ -58,6 +58,7 @@
         <Compile Include="Extensions\ProjectExtensions.cs" />
         <Compile Include="Extensions\TiaPortalExtensions.cs" />
         <Compile Include="Models\CreateProjectInfo.cs" />
+        <Compile Include="Models\HmiDevice.cs" />
         <Compile Include="Models\PlcDevice.cs" />
         <Compile Include="Models\Fingerprints.cs" />
         <Compile Include="Models\PlcBlock.cs" />
