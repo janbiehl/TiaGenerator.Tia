@@ -56,8 +56,7 @@ namespace TiaGenerator.Tia.Extensions
 		/// <param name="project">The project to search</param>
 		/// <returns>Null, or a tuple containing the required information</returns>
 		/// <exception cref="TiaException"></exception>
-		public static (Device device, DeviceItem deviceItem, PlcSoftware plcSoftware)? FindFirstPlcDevice(
-			this Project project)
+		public static PlcDevice? FindFirstPlcDevice(this Project project)
 		{
 			return DeviceUtils.FindFirstPlcDevice(project);
 		}
@@ -68,8 +67,7 @@ namespace TiaGenerator.Tia.Extensions
 		/// <param name="project">The project to search</param>
 		/// <returns>Empty collection, or List of tuples containing the required information's</returns>
 		/// <exception cref="TiaException"></exception>
-		public static List<(Device device, DeviceItem deviceItem, PlcSoftware plcSoftware)>? FindAnyPlcDevices(
-			this Project project)
+		public static IEnumerable<PlcDevice> FindAnyPlcDevices(this Project project)
 		{
 			return DeviceUtils.FindAnyPlcDevices(project);
 		}

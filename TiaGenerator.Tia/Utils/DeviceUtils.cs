@@ -146,7 +146,7 @@ namespace TiaGenerator.Tia.Utils
         /// <param name="project">The project to search</param>
         /// <returns>Null, or a tuple containing the required information</returns>
         /// <exception cref="TiaException"></exception>
-        public static (Device device, DeviceItem deviceItem, PlcSoftware plcSoftware)? FindFirstPlcDevice(Project project)
+        public static PlcDevice? FindFirstPlcDevice(Project project)
         {
             try
             {
@@ -160,7 +160,7 @@ namespace TiaGenerator.Tia.Utils
 
                         if (softwareContainer?.Software is PlcSoftware plcSoftware)
                         {
-                            return (device, deviceItem, plcSoftware);
+                            return new PlcDevice(device, deviceItem, plcSoftware);
                         }
                     }
                 }
@@ -179,40 +179,40 @@ namespace TiaGenerator.Tia.Utils
         /// <param name="project">The project to search</param>
         /// <returns>Empty collection, or List of tuples containing the required information's</returns>
         /// <exception cref="TiaException"></exception>
-        public static List<(Device device, DeviceItem deviceItem, PlcSoftware plcSoftware)>? FindAnyPlcDevices(Project project)
+        public static IEnumerable<PlcDevice> FindAnyPlcDevices(Project project)
         {
             try
             {
                 if (project == null) throw new ArgumentNullException(nameof(project));
 
-                var results = new List<(Device device, DeviceItem deviceItem, PlcSoftware plcSoftware)>();
+                var results = new List<PlcDevice>();
 
                 foreach (var device in project.Devices)
                 {
                     foreach (var deviceItem in device.DeviceItems)
                     {
-                        // TODO: Hier gibt es eine Exception
-                        var softwareContainer = deviceItem.GetService<SoftwareContainer>();
-
-                        if (softwareContainer?.Software is PlcSoftware plcSoftware)
+                        try
                         {
-                            results.Add((device, deviceItem, plcSoftware));
+                            var softwareContainer = deviceItem.GetService<SoftwareContainer>();
+
+                            if (softwareContainer?.Software is PlcSoftware plcSoftware)
+                            {
+                                results.Add(new PlcDevice(device, deviceItem, plcSoftware));
+                            }
+                        }
+                        catch (EngineeringRuntimeException)
+                        {
+                            // Ignore
                         }
                     }
                 }
 
                 return results;
             }
-            catch (EngineeringRuntimeException)
-            {
-                // Ignored
-            }
             catch (Exception e)
             {
                 throw new TiaException("There was an error while searching for multiple PLC devices", e);
             }
-
-            return null;
         }
 
         /// <summary>
