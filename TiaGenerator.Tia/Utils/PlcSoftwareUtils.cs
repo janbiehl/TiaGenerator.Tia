@@ -361,8 +361,17 @@ namespace TiaGenerator.Tia.Utils
 			
 			return userGroup;
 		}
-
-		public static PlcBlockUserGroup GetOrCreateGroup(PlcSoftware plcSoftware, string[] blockGroups)
+		
+		public static PlcBlockUserGroup? GetBlockGroup(PlcSoftware plcSoftware, string groupName, PlcBlockUserGroupComposition? groupComposition = null)
+		{
+			var blockGroup = groupComposition is null ? 
+				plcSoftware.BlockGroup.Groups.Find(groupName) : 
+				groupComposition.Find(groupName);
+			
+			return blockGroup;
+		}
+		
+		public static PlcBlockUserGroup GetOrCreateBlockGroup(PlcSoftware plcSoftware, string[] blockGroups)
 		{
 			if (plcSoftware == null) throw new ArgumentNullException(nameof(plcSoftware));
 			if (blockGroups == null) throw new ArgumentNullException(nameof(blockGroups));

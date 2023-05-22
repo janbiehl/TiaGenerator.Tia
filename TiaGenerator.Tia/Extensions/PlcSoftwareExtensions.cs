@@ -45,7 +45,7 @@ namespace TiaGenerator.Tia.Extensions
 		
 		public static PlcBlockUserGroup GetOrCreateGroup(this PlcSoftware plcSoftware, string[] blockGroups)
 		{
-			return PlcSoftwareUtils.GetOrCreateGroup(plcSoftware, blockGroups);
+			return PlcSoftwareUtils.GetOrCreateBlockGroup(plcSoftware, blockGroups);
 		}
 
 		public static PlcBlockUserGroup GetOrCreateBlockGroup(this PlcSoftware plcSoftware, string groupName,
