@@ -12,6 +12,8 @@ namespace TiaGenerator.Tia.Extensions
 	{
 		public static string? Identifier(this Device device)
 		{
+			using var activity = Tracing.ActivitySource?.StartActivity();
+
 			if (device == null) throw new ArgumentNullException(nameof(device));
             
 			var identityProvider = device.GetService<CustomIdentityProvider>();

@@ -17,6 +17,8 @@ namespace TiaGenerator.Tia.Extensions
 		/// <exception cref="TiaException"></exception>
 		public static Project CreateProject(this TiaPortal tiaPortal, CreateProjectInfo projectInfo)
 		{
+			using var activity = Tracing.ActivitySource?.StartActivity();
+
 			return ProjectUtils.CreateProject(tiaPortal, projectInfo);
 		}
 
@@ -31,6 +33,8 @@ namespace TiaGenerator.Tia.Extensions
 		/// <exception cref="TiaException"></exception>
 		public static Project? OpenProject(this TiaPortal tiaPortal, string filePath, bool withUpgrade = false, UmacDelegate? umacDelegate = null)
 		{
+			using var activity = Tracing.ActivitySource?.StartActivity();
+
 			return ProjectUtils.OpenProject(tiaPortal, filePath, withUpgrade, umacDelegate);
 		}
 
@@ -46,6 +50,8 @@ namespace TiaGenerator.Tia.Extensions
 		public static Project? RestoreProjectArchive(this TiaPortal tiaPortal, string archiveFilePath, string targetDirectory,
 			bool withUpgrade = false, UmacDelegate? umacDelegate = null)
 		{
+			using var activity = Tracing.ActivitySource?.StartActivity();
+
 			return ProjectUtils.RestoreProjectArchive(tiaPortal, archiveFilePath, targetDirectory, withUpgrade, umacDelegate);
 		}
 	}

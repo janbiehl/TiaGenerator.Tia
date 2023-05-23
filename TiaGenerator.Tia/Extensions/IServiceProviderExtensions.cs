@@ -12,6 +12,8 @@ namespace TiaGenerator.Tia.Extensions
 	{
 		public static string? GetIdentifier(this IEngineeringServiceProvider engineeringServiceProvider)
 		{
+			using var activity = Tracing.ActivitySource?.StartActivity();
+
 			if (engineeringServiceProvider == null) 
 				throw new ArgumentNullException(nameof(engineeringServiceProvider));
             
@@ -22,6 +24,8 @@ namespace TiaGenerator.Tia.Extensions
 
 		public static void SetIdentifier(this IEngineeringServiceProvider engineeringServiceProvider, string identifier)
 		{
+			using var activity = Tracing.ActivitySource?.StartActivity();
+
 			if (engineeringServiceProvider == null) 
 				throw new ArgumentNullException(nameof(engineeringServiceProvider));
             
@@ -33,6 +37,8 @@ namespace TiaGenerator.Tia.Extensions
 		public static void SetIdentifier(this IEngineeringServiceProvider engineeringServiceProvider,
 			ReadOnlySpan<byte> bytes)
 		{
+			using var activity = Tracing.ActivitySource?.StartActivity();
+
 			engineeringServiceProvider.SetIdentifier(bytes.ToString());        
 		}
 	}

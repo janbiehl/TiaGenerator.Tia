@@ -1,5 +1,7 @@
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
+using OpenTelemetry.Trace;
 using Siemens.Engineering;
 using Siemens.Engineering.CustomIdentity;
 using Siemens.Engineering.Hmi;
@@ -28,6 +30,8 @@ namespace TiaGenerator.Tia.Utils
         /// <exception cref="ArgumentException"></exception>
         public static (Device?, DeviceItem?)? FindDeviceOrItemByAppId(Project project, string identifier)
         {
+            using var activity = Tracing.ActivitySource?.StartActivity(ActivityKind.Producer);
+            
             try
             {
                 if (project == null) throw new ArgumentNullException(nameof(project));
@@ -58,7 +62,9 @@ namespace TiaGenerator.Tia.Utils
             }
             catch (Exception e)
             {
-                throw new TiaException($"There was an error while searching for a device or deviceItem with identifier '{identifier}'", e);
+                var exception = new TiaException($"There was an error while searching for a device or deviceItem with identifier '{identifier}'", e);
+                activity.RecordException(exception);
+                throw exception;
             }
         }
 
@@ -148,6 +154,8 @@ namespace TiaGenerator.Tia.Utils
         /// <exception cref="TiaException"></exception>
         public static PlcDevice? FindFirstPlcDevice(Project project)
         {
+            using var activity = Tracing.ActivitySource?.StartActivity(ActivityKind.Producer);
+            
             try
             {
                 if (project == null) throw new ArgumentNullException(nameof(project));
@@ -160,6 +168,7 @@ namespace TiaGenerator.Tia.Utils
 
                         if (softwareContainer?.Software is PlcSoftware plcSoftware)
                         {
+                            activity?.SetTag("PLC", plcSoftware.Name);
                             return new PlcDevice(device, deviceItem, plcSoftware);
                         }
                     }
@@ -169,7 +178,9 @@ namespace TiaGenerator.Tia.Utils
             }
             catch (Exception e)
             {
-                throw new TiaException("There was an error while searching for the first PLC device", e);
+                var exception = new TiaException("There was an error while searching for the first PLC device", e);
+                activity.RecordException(exception);
+                throw exception;
             }
         }
 
@@ -181,6 +192,8 @@ namespace TiaGenerator.Tia.Utils
         /// <exception cref="TiaException"></exception>
         public static IEnumerable<PlcDevice> FindAnyPlcDevices(Project project)
         {
+            using var activity = Tracing.ActivitySource?.StartActivity(ActivityKind.Producer);
+            
             try
             {
                 if (project == null) throw new ArgumentNullException(nameof(project));
@@ -207,11 +220,15 @@ namespace TiaGenerator.Tia.Utils
                     }
                 }
 
+                activity?.SetTag("PlcAmount", results.Count);
+                
                 return results;
             }
             catch (Exception e)
             {
-                throw new TiaException("There was an error while searching for multiple PLC devices", e);
+                var exception = new TiaException("There was an error while searching for multiple PLC devices", e);
+                activity.RecordException(exception);
+                throw exception;
             }
         }
 
@@ -223,6 +240,8 @@ namespace TiaGenerator.Tia.Utils
         /// <exception cref="TiaException"></exception>
         public static HmiDevice? FindFirstHmiDevice(Project project)
         {
+            using var activity = Tracing.ActivitySource?.StartActivity(ActivityKind.Producer);
+            
             try
             {
                 if (project == null) throw new ArgumentNullException(nameof(project));
@@ -244,7 +263,9 @@ namespace TiaGenerator.Tia.Utils
             }
             catch (Exception e)
             {
-                throw new TiaException("There was an error while searching for the first HMI device", e);
+                var exception = new TiaException("There was an error while searching for the first HMI device", e);
+                activity.RecordException(exception);
+                throw exception;
             }
         }
 
@@ -256,6 +277,8 @@ namespace TiaGenerator.Tia.Utils
         /// <exception cref="TiaException"></exception>
         public static List<HmiDevice> FindAnyHmiDevices(Project project)
         {
+            using var activity = Tracing.ActivitySource?.StartActivity(ActivityKind.Producer);
+
             try
             {
                 if (project == null) throw new ArgumentNullException(nameof(project));
@@ -279,7 +302,9 @@ namespace TiaGenerator.Tia.Utils
             }
             catch (Exception e)
             {
-                throw new TiaException("There was an error while searching for multiple HMI devices", e);
+                var exception = new TiaException("There was an error while searching for multiple HMI devices", e);
+                activity.RecordException(exception);
+                throw exception;
             } 
         }
 
@@ -294,6 +319,8 @@ namespace TiaGenerator.Tia.Utils
         /// <exception cref="TiaException"></exception>
         public static Device CreateDevice(Project? project, string typeIdentifier, string deviceRoot, string hierarchyName)
         {
+            using var activity = Tracing.ActivitySource?.StartActivity(ActivityKind.Producer);
+
             try
             {
                 if (project == null) throw new ArgumentNullException(nameof(project));
@@ -313,25 +340,29 @@ namespace TiaGenerator.Tia.Utils
             }
             catch (Exception e)
             {
-                throw new TiaException("There was an error while creating a device", e);
+                var exception = new TiaException("There was an error while creating a device", e);
+                activity.RecordException(exception);
+                throw exception;
             }
         }
         
         // TODO: Work on the following methods
         //Enumerate devices in groups or sub-groups
-        public static void EnumerateDevices(Project project)
+        /*public static void EnumerateDevices(Project project)
         {
-            Console.WriteLine("Devices:");
+            using var activity = Tracing.ActivitySource?.StartActivity(ActivityKind.Producer);
+
+            //Console.WriteLine("Devices:");
             EnumerateDeviceObjects(project.Devices);
             
-            foreach (DeviceUserGroup deviceUserGroup in project.DeviceGroups)
+            foreach (var deviceUserGroup in project.DeviceGroups)
             {
                 EnumerateDeviceUserGroup(deviceUserGroup);
             }
         }
         private static void EnumerateDeviceUserGroup(DeviceUserGroup deviceUserGroup)
         {
-            Console.WriteLine($"{Environment.NewLine}Group: {deviceUserGroup.Name}");
+            //Console.WriteLine($"{Environment.NewLine}Group: {deviceUserGroup.Name}");
             
             EnumerateDeviceObjects(deviceUserGroup.Devices);
             
@@ -345,13 +376,13 @@ namespace TiaGenerator.Tia.Utils
         {
             foreach (Device device in deviceComposition)
             {
-                Console.WriteLine($"{Environment.NewLine}- {device.Name}, {device.TypeIdentifier}");
+                //Console.WriteLine($"{Environment.NewLine}- {device.Name}, {device.TypeIdentifier}");
                 
                 foreach (var deviceItem in device.DeviceItems)
                 {
-                    Console.WriteLine($" + {deviceItem.Name}, {deviceItem.TypeIdentifier}");
+                    //Console.WriteLine($" + {deviceItem.Name}, {deviceItem.TypeIdentifier}");
                 }
             }
-        }
+        }*/
     }
 }

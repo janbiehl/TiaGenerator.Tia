@@ -23,6 +23,8 @@ namespace TiaGenerator.Tia.Extensions
 
 		public static IList<PlcBlock> GetBlockInformation(this PlcSoftware plcSoftware)
 		{
+			using var activity = Tracing.ActivitySource?.StartActivity();
+
 			if (plcSoftware == null) throw new ArgumentNullException(nameof(plcSoftware));
 
 			return PlcSoftwareUtils.GetAllBlocks(plcSoftware);
@@ -30,6 +32,8 @@ namespace TiaGenerator.Tia.Extensions
 
 		public static IList<PlcTagTable> GetTagTableInformation(this PlcSoftware plcSoftware)
 		{
+			using var activity = Tracing.ActivitySource?.StartActivity();
+			
 			if (plcSoftware == null) throw new ArgumentNullException(nameof(plcSoftware));
 
 			return PlcSoftwareUtils.GetAllTags(plcSoftware);
@@ -37,6 +41,8 @@ namespace TiaGenerator.Tia.Extensions
 
 		public static CompilerResult? Compile(this PlcSoftware plcSoftware)
 		{
+			using var activity = Tracing.ActivitySource?.StartActivity();
+
 			if (plcSoftware == null) throw new ArgumentNullException(nameof(plcSoftware));
 
 			var compilableService = plcSoftware.GetService<ICompilable>();
@@ -45,12 +51,16 @@ namespace TiaGenerator.Tia.Extensions
 		
 		public static PlcBlockUserGroup GetOrCreateGroup(this PlcSoftware plcSoftware, string[] blockGroups)
 		{
+			using var activity = Tracing.ActivitySource?.StartActivity();
+
 			return PlcSoftwareUtils.GetOrCreateBlockGroup(plcSoftware, blockGroups);
 		}
 
 		public static PlcBlockUserGroup GetOrCreateBlockGroup(this PlcSoftware plcSoftware, string groupName,
 			PlcBlockUserGroupComposition? groupComposition = null)
 		{
+			using var activity = Tracing.ActivitySource?.StartActivity();
+
 			return PlcSoftwareUtils.GetOrCreateBlockGroup(plcSoftware, groupName, groupComposition);
 		}
 	}

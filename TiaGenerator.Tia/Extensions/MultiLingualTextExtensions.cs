@@ -11,6 +11,8 @@ namespace TiaGenerator.Tia.Extensions
 		/// <returns></returns>
 		public static string GetDefaultText(this MultilingualText multilingualText)
 		{
+			using var activity = Tracing.ActivitySource?.StartActivity();
+
 			return multilingualText.Items[0].Text;
 		}
 	}

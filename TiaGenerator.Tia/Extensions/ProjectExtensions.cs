@@ -15,6 +15,8 @@ namespace TiaGenerator.Tia.Extensions
 		/// <exception cref="TiaException"></exception>
 		public static void Save(this Project project)
 		{
+			using var activity = Tracing.ActivitySource?.StartActivity();
+
 			ProjectUtils.SaveProject(project);
 		}
 
@@ -26,6 +28,8 @@ namespace TiaGenerator.Tia.Extensions
 		/// <exception cref="TiaException"></exception>
 		public static void SaveAsNew(this Project project, string targetDirectory)
 		{
+			using var activity = Tracing.ActivitySource?.StartActivity();
+
 			ProjectUtils.SaveProjectAsNew(project, targetDirectory);
 		}
 
@@ -47,6 +51,8 @@ namespace TiaGenerator.Tia.Extensions
 		public static void CreateArchive(this Project project, string archiveDirectory, string archiveName,
 			ProjectArchivationMode archiveMode = ProjectArchivationMode.DiscardRestorableDataAndCompressed)
 		{
+			using var activity = Tracing.ActivitySource?.StartActivity();
+
 			ProjectUtils.CreateProjectArchive(project, archiveDirectory, archiveName, archiveMode);
 		}
 
@@ -58,6 +64,8 @@ namespace TiaGenerator.Tia.Extensions
 		/// <exception cref="TiaException"></exception>
 		public static PlcDevice? FindFirstPlcDevice(this Project project)
 		{
+			using var activity = Tracing.ActivitySource?.StartActivity();
+
 			return DeviceUtils.FindFirstPlcDevice(project);
 		}
 
@@ -69,6 +77,8 @@ namespace TiaGenerator.Tia.Extensions
 		/// <exception cref="TiaException"></exception>
 		public static IEnumerable<PlcDevice> FindAnyPlcDevices(this Project project)
 		{
+			using var activity = Tracing.ActivitySource?.StartActivity();
+
 			return DeviceUtils.FindAnyPlcDevices(project);
 		}
 
@@ -80,6 +90,8 @@ namespace TiaGenerator.Tia.Extensions
 		/// <exception cref="TiaException"></exception>
 		public static HmiDevice? FindFirstHmiDevice(this Project project)
 		{
+			using var activity = Tracing.ActivitySource?.StartActivity();
+
 			return DeviceUtils.FindFirstHmiDevice(project);
 		}
 
@@ -92,6 +104,8 @@ namespace TiaGenerator.Tia.Extensions
 		public static List<HmiDevice> FindAnyHmiDevices(
 			this Project project)
 		{
+			using var activity = Tracing.ActivitySource?.StartActivity();
+
 			return DeviceUtils.FindAnyHmiDevices(project);
 		}
 
@@ -107,12 +121,14 @@ namespace TiaGenerator.Tia.Extensions
 		public static Device CreateDevice(this Project? project, string typeIdentifier, string deviceRoot,
 			string hierarchyName)
 		{
+			using var activity = Tracing.ActivitySource?.StartActivity();
+
 			return DeviceUtils.CreateDevice(project, typeIdentifier, deviceRoot, hierarchyName);
 		}
 
-		public static void EnumerateDevices(this Project project)
-		{
-			DeviceUtils.EnumerateDevices(project);
-		}
+		// public static void EnumerateDevices(this Project project)
+		// {
+		// 	DeviceUtils.EnumerateDevices(project);
+		// }
 	}
 }

@@ -18,6 +18,8 @@ namespace TiaGenerator.Tia.Utils
 
 		public static IList<PlcTagTable> GetAllTags(PlcSoftware plcSoftware)
 		{
+			using var activity = Tracing.ActivitySource?.StartActivity();
+			
 			if (plcSoftware == null) throw new ArgumentNullException(nameof(plcSoftware));
 
 			var tagTables = new List<PlcTagTable>();
@@ -31,6 +33,8 @@ namespace TiaGenerator.Tia.Utils
 		private static void EnumerateTagTables(PlcTagTableComposition tagTableComposition,
 			ref List<PlcTagTable> tagTables)
 		{
+			using var activity = Tracing.ActivitySource?.StartActivity();
+
 			if (tagTableComposition == null) throw new ArgumentNullException(nameof(tagTableComposition));
 
 			foreach (var tagTable in tagTableComposition)
@@ -92,6 +96,8 @@ namespace TiaGenerator.Tia.Utils
 		private static void EnumerateTagTableGroups(PlcTagTableUserGroupComposition tagTableUserGroupComposition,
 			ref List<PlcTagTable> tagTables)
 		{
+			using var activity = Tracing.ActivitySource?.StartActivity();
+			
 			if (tagTableUserGroupComposition == null)
 				throw new ArgumentNullException(nameof(tagTableUserGroupComposition));
 
@@ -161,6 +167,8 @@ namespace TiaGenerator.Tia.Utils
 
 		public static IList<Models.PlcBlock> GetAllBlocks(PlcSoftware plcSoftware)
 		{
+			using var activity = Tracing.ActivitySource?.StartActivity();
+			
 			if (plcSoftware == null) throw new ArgumentNullException(nameof(plcSoftware));
 
 			var blocks = new List<Models.PlcBlock>();
@@ -174,6 +182,8 @@ namespace TiaGenerator.Tia.Utils
 		private static void EnumerateBlockGroup(PlcBlockUserGroupComposition userGroupComposition, string path,
 			ref List<Models.PlcBlock> blocks)
 		{
+			using var activity = Tracing.ActivitySource?.StartActivity();
+			
 			if (userGroupComposition == null) throw new ArgumentNullException(nameof(userGroupComposition));
 
 			foreach (var blockUserGroup in userGroupComposition)
@@ -198,6 +208,8 @@ namespace TiaGenerator.Tia.Utils
 		private static void EnumerateBlocks(PlcBlockComposition blockComposition, string path,
 			ref List<Models.PlcBlock> blocks)
 		{
+			using var activity = Tracing.ActivitySource?.StartActivity();
+			
 			if (blockComposition == null) throw new ArgumentNullException(nameof(blockComposition));
 
 			foreach (var block in blockComposition)
@@ -252,8 +264,11 @@ namespace TiaGenerator.Tia.Utils
 		}
 		*/
 
-		public static string GetBlockTypeShortName(BlockType blockType) =>
-			blockType switch
+		public static string GetBlockTypeShortName(BlockType blockType)
+		{
+			using var activity = Tracing.ActivitySource?.StartActivity();
+
+			return blockType switch
 			{
 				BlockType.Ob => "OB",
 				BlockType.Fb => "FB",
@@ -263,6 +278,7 @@ namespace TiaGenerator.Tia.Utils
 				BlockType.Adb => "aDB",
 				_ => throw new ArgumentOutOfRangeException(nameof(blockType), blockType, null)
 			};
+		}
 
 		/// <summary>
 		/// Get the blocks information in short format
@@ -275,6 +291,8 @@ namespace TiaGenerator.Tia.Utils
 		/// <exception cref="ArgumentNullException"></exception>
 		public static string GetBlockShortInformation(PlcBlock plcBlock)
 		{
+			using var activity = Tracing.ActivitySource?.StartActivity();
+			
 			if (plcBlock == null) throw new ArgumentNullException(nameof(plcBlock));
 
 			var blockType = plcBlock.GetBlockType();
@@ -291,6 +309,8 @@ namespace TiaGenerator.Tia.Utils
 		/// <param name="name"></param>
 		public static PlcBlock? FindBlock(PlcSoftware plcSoftware, string name)
 		{
+			using var activity = Tracing.ActivitySource?.StartActivity();
+			
 			if (string.IsNullOrWhiteSpace(name))
 				throw new ArgumentException("Value cannot be null or whitespace.", nameof(name));
 
@@ -302,6 +322,8 @@ namespace TiaGenerator.Tia.Utils
 
 		private static PlcBlock? FindBlockRecursive(PlcBlockUserGroupComposition blockGroupGroups, string name)
 		{
+			using var activity = Tracing.ActivitySource?.StartActivity();
+			
 			PlcBlock? plcBlock = null;
 			
 			foreach (var plcBlockUserGroup in blockGroupGroups)
@@ -328,6 +350,8 @@ namespace TiaGenerator.Tia.Utils
 		/// <exception cref="ArgumentException"></exception>
 		public static void CreateBlockGroups(PlcSoftware plcSoftware, string[] blockGroups)
 		{
+			using var activity = Tracing.ActivitySource?.StartActivity();
+			
 			if (plcSoftware == null) throw new ArgumentNullException(nameof(plcSoftware));
 			if (blockGroups == null) throw new ArgumentNullException(nameof(blockGroups));
 			if (blockGroups.Length == 0)
@@ -347,6 +371,8 @@ namespace TiaGenerator.Tia.Utils
 
 		public static PlcBlockUserGroup? GetBlockGroup(PlcSoftware plcSoftware, string[] blockGroups)
 		{
+			using var activity = Tracing.ActivitySource?.StartActivity();
+			
 			if (plcSoftware == null) throw new ArgumentNullException(nameof(plcSoftware));
 			if (blockGroups == null) throw new ArgumentNullException(nameof(blockGroups));
 			if (blockGroups.Length == 0)
@@ -364,6 +390,8 @@ namespace TiaGenerator.Tia.Utils
 		
 		public static PlcBlockUserGroup? GetBlockGroup(PlcSoftware plcSoftware, string groupName, PlcBlockUserGroupComposition? groupComposition = null)
 		{
+			using var activity = Tracing.ActivitySource?.StartActivity();
+			
 			var blockGroup = groupComposition is null ? 
 				plcSoftware.BlockGroup.Groups.Find(groupName) : 
 				groupComposition.Find(groupName);
@@ -373,6 +401,8 @@ namespace TiaGenerator.Tia.Utils
 		
 		public static PlcBlockUserGroup GetOrCreateBlockGroup(PlcSoftware plcSoftware, string[] blockGroups)
 		{
+			using var activity = Tracing.ActivitySource?.StartActivity();
+			
 			if (plcSoftware == null) throw new ArgumentNullException(nameof(plcSoftware));
 			if (blockGroups == null) throw new ArgumentNullException(nameof(blockGroups));
 			if (blockGroups.Length == 0)
@@ -395,6 +425,8 @@ namespace TiaGenerator.Tia.Utils
 
 		public static PlcBlockUserGroup GetOrCreateBlockGroup(PlcSoftware plcSoftware, string groupName, PlcBlockUserGroupComposition? groupComposition = null)
 		{
+			using var activity = Tracing.ActivitySource?.StartActivity();
+			
 			var blockGroup = groupComposition is null ? plcSoftware.BlockGroup.Groups.Find(groupName) : groupComposition.Find(groupName);
 			
 			return blockGroup ?? plcSoftware.BlockGroup.Groups.Create(groupName);

@@ -22,6 +22,8 @@ namespace TiaGenerator.Tia.Extensions
 		/// <returns>True, when the block is a function</returns>
 		public static bool IsFc(this PlcBlock plcBlock)
 		{
+			using var activity = Tracing.ActivitySource?.StartActivity();
+
 			return plcBlock is FC;
 		}
 		
@@ -32,6 +34,8 @@ namespace TiaGenerator.Tia.Extensions
 		/// <returns>True, when the block is a function block</returns>
 		public static bool IsFb(this PlcBlock plcBlock)
 		{
+			using var activity = Tracing.ActivitySource?.StartActivity();
+
 			return plcBlock is FB;
 		}
 		
@@ -42,6 +46,8 @@ namespace TiaGenerator.Tia.Extensions
 		/// <returns>True, when the block is a organization block</returns>
 		public static bool IsOb(this PlcBlock plcBlock)
 		{
+			using var activity = Tracing.ActivitySource?.StartActivity();
+
 			return plcBlock is OB;
 		}
 		
@@ -52,6 +58,8 @@ namespace TiaGenerator.Tia.Extensions
 		/// <returns>True, when the block is a global data block</returns>
 		public static bool IsDb(this PlcBlock plcBlock)
 		{
+			using var activity = Tracing.ActivitySource?.StartActivity();
+
 			return plcBlock is GlobalDB;
 		}
 		
@@ -62,6 +70,8 @@ namespace TiaGenerator.Tia.Extensions
 		/// <returns>True, when the block is a instance data block</returns>
 		public static bool IsInstanceDb(this PlcBlock plcBlock)
 		{
+			using var activity = Tracing.ActivitySource?.StartActivity();
+
 			return plcBlock is InstanceDB;
 		}
 		
@@ -72,6 +82,8 @@ namespace TiaGenerator.Tia.Extensions
 		/// <returns>True, when the block is a array data block</returns>
 		public static bool IsArrayDb(this PlcBlock plcBlock)
 		{
+			using var activity = Tracing.ActivitySource?.StartActivity();
+
 			return plcBlock is ArrayDB;
 		}
 
@@ -84,6 +96,8 @@ namespace TiaGenerator.Tia.Extensions
 		[Obsolete("Use GetBlockType() + BlockUtils.GetBlockTypeShort() instead", true)]
 		public static string GetBlockIdentifier(this PlcBlock plcBlock)
 		{
+			using var activity = Tracing.ActivitySource?.StartActivity();
+
 			return plcBlock switch
 			{
 				FC _ => "FC",
@@ -102,8 +116,11 @@ namespace TiaGenerator.Tia.Extensions
 		/// <param name="plcBlock">The block to get the type for</param>
 		/// <returns>Enum entry that defines the type of block</returns>
 		/// <exception cref="ArgumentOutOfRangeException"></exception>
-		public static BlockType GetBlockType(this PlcBlock plcBlock) =>
-			plcBlock switch
+		public static BlockType GetBlockType(this PlcBlock plcBlock)
+		{
+			using var activity = Tracing.ActivitySource?.StartActivity();
+
+			return plcBlock switch
 			{
 				FC _ => BlockType.Fc,
 				FB _ => BlockType.Fb,
@@ -113,6 +130,7 @@ namespace TiaGenerator.Tia.Extensions
 				ArrayDB _ => BlockType.Adb,
 				_ => throw new ArgumentOutOfRangeException(nameof(plcBlock), "The type of plc block is not supported")
 			};
+		}
 
 		/// <summary>
 		/// Export a non know-how protected plc block to SIMATIC ML file (XML)
@@ -125,6 +143,8 @@ namespace TiaGenerator.Tia.Extensions
 		public static FileInfo ExportToFile(this PlcBlock plcBlock, string filePath, 
 			ExportOptions exportOptions = ExportOptions.WithDefaults | ExportOptions.WithReadOnly)
 		{
+			using var activity = Tracing.ActivitySource?.StartActivity();
+
 			if (plcBlock == null) throw new ArgumentNullException(nameof(plcBlock));
 			if (string.IsNullOrWhiteSpace(filePath))
 				throw new ArgumentException("Value cannot be null or whitespace.", nameof(filePath));
@@ -162,6 +182,8 @@ namespace TiaGenerator.Tia.Extensions
 		public static IList<PlcBlock> ImportBlocksFromFile(this PlcBlockComposition blockComposition, string filePath, 
 			ImportOptions importOptions, SWImportOptions swImportOptions)
 		{
+			using var activity = Tracing.ActivitySource?.StartActivity();
+
 			if (blockComposition == null) 
 				throw new ArgumentNullException(nameof(blockComposition));
 			
@@ -185,6 +207,9 @@ namespace TiaGenerator.Tia.Extensions
 		
 		public static Fingerprints GetFingerprints(this PlcBlock plcBlock)
 		{
+			using var activity = Tracing.ActivitySource?.StartActivity();
+
+
 			return PlcBlockUtils.GetFingerprints(plcBlock);
 		}
 		

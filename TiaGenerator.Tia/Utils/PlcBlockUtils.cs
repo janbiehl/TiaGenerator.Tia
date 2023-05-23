@@ -11,6 +11,8 @@ namespace TiaGenerator.Tia.Utils
 		
 		public static Fingerprints GetFingerprints(PlcBlock plcBlock)
 		{
+			using var activity = Tracing.ActivitySource?.StartActivity();
+			
 			// Get the fingerprint provider service
 			var provider = plcBlock.GetService<FingerprintProvider>();
 			// Get the actual fingerprints for this block
@@ -60,7 +62,7 @@ namespace TiaGenerator.Tia.Utils
 						throw new ArgumentOutOfRangeException();
 				}
 			}
-
+			
 			return result;
 		} 
 	}

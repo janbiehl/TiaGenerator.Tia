@@ -19,6 +19,8 @@ namespace TiaGenerator.Tia.Utils
         /// <exception cref="TiaException"></exception>
         public static Project CreateProject(TiaPortal tiaPortal, CreateProjectInfo projectInfo)
         {
+            using var activity = Tracing.ActivitySource?.StartActivity();
+            
             try
             {
                 if (tiaPortal == null) throw new ArgumentNullException(nameof(tiaPortal));
@@ -63,6 +65,8 @@ namespace TiaGenerator.Tia.Utils
         /// <exception cref="TiaException"></exception>
         public static Project? OpenProject(TiaPortal tiaPortal, string filePath, bool withUpgrade = false, UmacDelegate? umacDelegate = null)
         {
+            using var activity = Tracing.ActivitySource?.StartActivity();
+            
             try
             {
                 if (tiaPortal == null) throw new ArgumentNullException(nameof(tiaPortal));
@@ -92,6 +96,8 @@ namespace TiaGenerator.Tia.Utils
         /// <exception cref="TiaException"></exception>
         public static void SaveProject(Project project)
         {
+            using var activity = Tracing.ActivitySource?.StartActivity();
+            
             try
             {
                 if (project == null) throw new ArgumentNullException(nameof(project));
@@ -113,6 +119,8 @@ namespace TiaGenerator.Tia.Utils
         /// <exception cref="TiaException"></exception>
         public static void SaveProjectAsNew(Project project, string targetDirectoryPath)
         {
+            using var activity = Tracing.ActivitySource?.StartActivity();
+            
             try
             {
                 if (project == null) throw new ArgumentNullException(nameof(project));
@@ -148,6 +156,8 @@ namespace TiaGenerator.Tia.Utils
         public static void CreateProjectArchive(Project projectToArchive, string archiveDirectory, string archiveName, 
             ProjectArchivationMode archiveMode = ProjectArchivationMode.DiscardRestorableDataAndCompressed)
         {
+            using var activity = Tracing.ActivitySource?.StartActivity();
+            
             try
             {
                 if (projectToArchive == null) throw new ArgumentNullException(nameof(projectToArchive));
@@ -183,6 +193,8 @@ namespace TiaGenerator.Tia.Utils
         public static Project RestoreProjectArchive(TiaPortal tiaPortal, string archiveFilePath, string targetDirectory, 
             bool withUpgrade = false, UmacDelegate? umacDelegate = null)
         {
+            using var activity = Tracing.ActivitySource?.StartActivity();
+            
             try
             {
                 if (tiaPortal == null) throw new ArgumentNullException(nameof(tiaPortal));
@@ -207,11 +219,8 @@ namespace TiaGenerator.Tia.Utils
                 {
                     return tiaPortal.Projects.Retrieve(sourceFileInfo, targetDirectoryInfo, umacDelegate);
                 }
-                else
-                {
-                    return tiaPortal.Projects.RetrieveWithUpgrade(sourceFileInfo, targetDirectoryInfo, umacDelegate);
-                }
-                
+
+                return tiaPortal.Projects.RetrieveWithUpgrade(sourceFileInfo, targetDirectoryInfo, umacDelegate);
             }
             catch (Exception e)
             {
